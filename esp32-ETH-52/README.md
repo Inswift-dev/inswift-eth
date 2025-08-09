@@ -1,5 +1,4 @@
-# inswift-eth-firmware
-Provide firmware for inswift-eth-52P and inswift-eth-52P7 ESP32 SOC devices
+# Provide firmware for inswift-eth-52P and inswift-eth-52P7 ESP32 SOC devices
 
 1.esp32 firmware.bin and ota.bin updated
 
