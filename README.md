@@ -6,8 +6,11 @@ Zigbee over LAN,USB,WiFI is supported.
 1.SOC INFO 
 
 used ESP32 + TI CC2652P2/P5 or Silicon Labs MG21/24
+
 Performance ranking: EFR32MG24 > EFR32MG21 > CC652P7 > CC2652P
+
 Compatibility ranking: CC2562P > EFR32MG24 = EFR32MG21 > CC2652P
+
 High performance: EFR32 supports multiple protocols such as Matter and Thread
 
 CC2652P： 
