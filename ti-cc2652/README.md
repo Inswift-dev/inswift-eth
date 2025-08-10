@@ -1,0 +1,3 @@
+  - **coordinator**: Contains `.bin` files for Zigbee coordinator firmware.
+  - **router**: Contains `.bin` files for Zigbee router firmware.
+  - **thread**: Contains `.bin` files for Thread firmware.
