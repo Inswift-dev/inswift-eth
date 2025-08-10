@@ -2,6 +2,8 @@ Inswift Zigbee 3.0 PoE Ethernet USB Adapter's Firmware
 
 Zigbee over LAN,USB,WiFI is supported.
 
+<img width="1000" height="1000" alt="07" src="https://github.com/user-attachments/assets/7fa0eef4-7823-4251-b3df-658bf69f563e" />
+<img width="1000" height="1000" alt="08" src="https://github.com/user-attachments/assets/53e889e3-4b1c-41e2-9617-d5ebcaed8c95" />
 
 1.SOC INFO 
 
