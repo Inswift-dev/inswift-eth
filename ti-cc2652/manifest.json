@@ -3,13 +3,13 @@
       "CC2652P2_launchpad": {
          "CC1352P2_CC2652P_launchpad_router_20221102.bin": {
             "ver": "20221102",
-            "link": "https://raw.githubusercontent.com/xyzroe/Inswift-dev/inswift-eth/ti-cc2652/router/CC1352P2_CC2652P_launchpad_router_20221102.bin",
+            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P2_CC2652P_launchpad_router_20221102.bin",
             "notes": "https://raw.githubusercontent.com/Koenkk/Z-Stack-firmware/Z-Stack_3.x.0_router_20221102/router/Z-Stack_3.x.0/CHANGELOG.md",
             "baud": "115200"
          },
          "SonoffZBPro_router_20220125.bin": {
             "ver": "ZBPro_20220125",
-            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/ti-cc2652/router/SonoffZBPro_router_20220125.bin",
+            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/SonoffZBPro_router_20220125.bin",
             "notes": "Only for SonoffZBPro",
             "baud": "115200"
          },
