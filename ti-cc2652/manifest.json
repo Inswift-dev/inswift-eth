@@ -1,6 +1,12 @@
 {
    "router": {
       "CC2652P2_launchpad": {
+         "CC1352P2_CC2652P_launchpad_router_20250403.bin": {
+            "ver": "20250403",
+            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P2_CC2652P_launchpad_router_20250403.bin",
+            "notes": "Updated SimpleLink SDK to 8.30.01.01",
+            "baud": "115200"
+         },
          "CC1352P2_CC2652P_launchpad_router_20221102.bin": {
             "ver": "20221102",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P2_CC2652P_launchpad_router_20221102.bin",
@@ -12,15 +18,15 @@
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/SonoffZBPro_router_20220125.bin",
             "notes": "Only for SonoffZBPro",
             "baud": "115200"
-         },
-         "CC1352P2_CC2652P_launchpad_router_20250403.bin": {
-            "ver": "20250403",
-            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P2_CC2652P_launchpad_router_20250403.bin",
-            "notes": "Updated SimpleLink SDK to 8.30.01.01",
-            "baud": "115200"
          }
       },
       "CC2652P7": {
+         "CC1352P7_router_20250403.bin": {
+            "ver": "20250403",
+            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P7_router_20250403.bin",
+            "notes": "Updated SimpleLink SDK to 8.30.01.01",
+            "baud": "115200"
+         },
          "zr_genericapp_LP_CC1352P7_4_tirtos7_ticlang_20231201.bin": {
             "ver": "20231201",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/zr_genericapp_LP_CC1352P7_4_tirtos7_ticlang_20231201.bin",
@@ -31,12 +37,6 @@
             "ver": "20dBm_20240909",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P7_router_20221102_20dbm_20240909.bin",
             "notes": "https://raw.githubusercontent.com/agriadsi/MOD-Z-Stack-Firmware/XZG_20240909/router/README.md",
-            "baud": "115200"
-         },
-         "CC1352P7_router_20250403.bin": {
-            "ver": "20250403",
-            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P7_router_20250403.bin",
-            "notes": "Updated SimpleLink SDK to 8.30.01.01",
             "baud": "115200"
          }
       }
