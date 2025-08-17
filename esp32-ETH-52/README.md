@@ -4,7 +4,9 @@ The eth-52P device includes two application firmwares: the **​​web applicati
 # ​​1. Full.bin Firmware​​
 **•​​Upgrade Method​​:** Currently, the full.bin firmware can only be upgraded via the **flash_download_tool** Downloadtool on a local computer.
 
-**•​​Note​​:** Upgrading full.bin will erase the entire flash memory, restoring all device configurations to factory defaults. This method is generally recommended **​​only when the device malfunctions​​ and cannot operate normally**.
+**•​​Note​​:** Upgrading full.bin will erase the entire flash memory, restoring all device configurations to factory defaults. This method is generally.
+
+**•recommended:** ​​only when the device malfunctions​​ and cannot operate normally.
 
 # 2. Web-Based Online OTA Upgrade (for ota.bin)​​
 **•​​Scope​​:** This method supports upgrading only the ​​**ota.bin** firmware​​ (ESP SoC application firmware).
