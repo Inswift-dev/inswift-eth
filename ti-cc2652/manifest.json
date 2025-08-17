@@ -28,7 +28,7 @@
             "baud": "115200"
          },
          "CC1352P7_router_20221102_20dbm_20240909.bin": {
-            "ver": "20dBm_20240909",
+            "ver": "20240909",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/router/CC1352P7_router_20221102_20dbm_20240909.bin",
             "notes": "https://raw.githubusercontent.com/agriadsi/MOD-Z-Stack-Firmware/XZG_20240909/router/README.md",
             "baud": "115200"
@@ -44,7 +44,7 @@
             "baud": "115200"
          },
          "CC1352P2_CC2652P_launchpad_coordinator_20250321.bin": {
-            "ver": "Beta_20250321",
+            "ver": "20250321",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/coordinator/CC1352P2_CC2652P_launchpad_coordinator_20250321.bin",
             "notes": "[Koenkk/Z-Stack-firmware/discussions/545](https://github.com/Koenkk/Z-Stack-firmware/discussions/545)",
             "baud": "115200"
@@ -64,7 +64,7 @@
             "baud": "115200"
          },
          "CC1352P7_coordinator_20250321.bin": {
-            "ver": "Beta_20250321",
+            "ver": "20250321",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/coordinator/CC1352P7_coordinator_20250321.bin",
             "notes": "[Koenkk/Z-Stack-firmware/discussions/545](https://github.com/Koenkk/Z-Stack-firmware/discussions/545)",
             "baud": "115200"
@@ -106,14 +106,6 @@
          "CC1352P2_CC2652P_launchpad_ot_rcp_2025_3_1_20250313.bin": {
             "ver": "20250313",
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/thread/CC1352P2_CC2652P_launchpad_ot_rcp_2025_3_1_20250313.bin",
-            "notes": "## Break the flashing ability of the CC2652*. You need JLink to restore it. [Koenkk/OpenThread-TexasInstruments-firmware/2025.3.1](https://github.com/Koenkk/OpenThread-TexasInstruments-firmware/releases/tag/2025.3.1)",
-            "baud": "460800"
-         }
-      },
-      "CC2652P2_other": {
-         "CC1352P2_CC2652P_other_ot_rcp_2025_3_1_20250313.bin": {
-            "ver": "20250313",
-            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/thread/CC1352P2_CC2652P_other_ot_rcp_2025_3_1_20250313.bin",
             "notes": "## Break the flashing ability of the CC2652*. You need JLink to restore it. [Koenkk/OpenThread-TexasInstruments-firmware/2025.3.1](https://github.com/Koenkk/OpenThread-TexasInstruments-firmware/releases/tag/2025.3.1)",
             "baud": "460800"
          }
