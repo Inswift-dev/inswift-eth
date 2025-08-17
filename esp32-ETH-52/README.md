@@ -34,6 +34,6 @@ The eth-52P device includes two application firmwares: the **​​web applicati
 
 
 # 4.Firmware Upgrade Operation Guide
-(https://github.com/Inswift-dev/inswift-eth/wiki/eth%E2%80%9052P-and-P7-esp32-SOC-Local-upgrade/_edit)
+(https://github.com/Inswift-dev/inswift-eth/wiki/ETH-Firmware-Upgrade-Operation-Guide)
 
 
