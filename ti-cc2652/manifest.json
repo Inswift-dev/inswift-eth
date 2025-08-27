@@ -74,12 +74,6 @@
             "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/coordinator/CC1352P7_coordinator_20240316.bin",
             "notes": "[Koenkk/Z-Stack-firmware/discussions/496](https://github.com/Koenkk/Z-Stack-firmware/discussions/496)",
             "baud": "115200"
-         },
-         "CC1352P7_coordinator_20230507.bin": {
-            "ver": "20230507",
-            "link": "https://raw.githubusercontent.com/Inswift-dev/inswift-eth/main/ti-cc2652/coordinator/CC1352P7_coordinator_20230507.bin",
-            "notes": "https://raw.githubusercontent.com/Koenkk/Z-Stack-firmware/Z-Stack_3.x.0_coordinator_20230507/coordinator/Z-Stack_3.x.0/CHANGELOG.md",
-            "baud": "115200"
          }
       }
    },
