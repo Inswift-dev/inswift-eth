@@ -1,0 +1,145 @@
+substitutions:
+  name: "eth52p7"
+  friendly_name: "Inswift ETH-52P7"
+  ota_password: "1234567890abcdef1234567890abcdef"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  project:
+    name: Inswift.ETH-52P7
+    version: "1.00"
+  on_boot:
+    priority: 600
+    then:
+      - script.execute: zb_rst
+
+api:
+logger:
+  baud_rate: 0
+ota:
+  - platform: esphome
+    password: "${ota_password}"
+
+esp32:
+  variant: esp32
+  framework:
+    type: esp-idf
+
+external_components:
+  - source: github://tube0013/esphome-stream-server-v2
+
+ethernet:
+  id: eth
+  type: IP101
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk:
+    pin: GPIO0
+    mode: CLK_EXT_IN
+  phy_addr: 1
+  power_pin: GPIO5
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+
+bluetooth_proxy:
+  active: true
+
+script:
+  - id: fw_update_mode
+    then:
+      - switch.turn_on: zBSL_gpio
+      - delay: 1s
+      - switch.turn_on: zRST_gpio
+      - delay: 1s
+      - switch.turn_off: zRST_gpio
+      - logger.log: "Delaying 10 seconds for cc2652p7 to settle"
+      - delay: 10s
+      - switch.turn_off: zBSL_gpio
+      - logger.log: "Please try update with cc2538-bsl tool"
+      - logger.log: 'cc-bsl usage: cc2538-bsl.py -p socket://<ipaddress>:6638 -evw firmware.hex'
+
+  - id: zb_rst
+    then:
+      - switch.turn_on: zRST_gpio
+      - delay: 15ms
+      - switch.turn_off: zRST_gpio
+
+switch:
+  - platform: gpio
+    pin: 15
+    id: zRST_gpio
+    inverted: yes
+    restore_mode: ALWAYS_OFF
+    internal: true
+  - platform: gpio
+    pin: 33
+    name: "Zigbee Module Bootloader Pin"
+    id: zBSL_gpio
+    inverted: yes
+    restore_mode: ALWAYS_OFF
+    internal: true
+
+uart:
+  id: uart_bus
+  rx_pin: GPIO13
+  tx_pin: GPIO17
+  baud_rate: 115200
+  rx_buffer_size: 1024
+
+stream_server:
+  id: streamServer
+  uart_id: uart_bus
+  port: 6638
+
+binary_sensor:
+  - platform: stream_server
+    stream_server: streamServer
+    name: "ETH-52P7 Serial Connected"
+
+  - platform: gpio
+    name: "Physical button status"
+    icon: mdi:toggle-switch
+    id: btn1
+    pin:
+      number: GPIO34
+      inverted: yes
+
+button:
+  - platform: template
+    name: "Zigbee Module Reset"
+    disabled_by_default: false
+    id: zRST
+    on_press:
+      - script.execute: zb_rst
+
+  - platform: template
+    name: "Zigbee Module update mode"
+    disabled_by_default: false
+    id: zUPDATE
+    on_press:
+      - script.execute: fw_update_mode
+
+light:
+  - platform: binary
+    name: "Power Led"
+    output: gled
+    restore_mode: ALWAYS_ON
+    internal: true
+
+  - platform: status_led
+    name: "Status Led"
+    output: bled
+    internal: true
+
+output:
+  - platform: gpio
+    pin: GPIO14
+    id: gled
+    inverted: false
+  - platform: gpio
+    pin: GPIO2
+    id: bled
+    inverted: false
