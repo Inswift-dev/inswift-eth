@@ -49,12 +49,15 @@ Off ： Be turned off / Device is not powered on
 
 
 **3.Selling links**
+
 We use our entire range of dongle products
-![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
 https://www.aliexpress.com/item/1005009387100041.html
+![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
+
 
 **4.ZBM-MG21/4 Firmware burning tool**
 https://github.com/Inswift-dev/inswift-silabs-flasher
+
 
 **5.Product details and usage tutorial**
 https://github.com/Inswift-dev/inswift-eth/wiki
