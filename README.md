@@ -47,5 +47,13 @@ Red solid ：Ethernet mode network disconnected
 
 Off ： Be turned off / Device is not powered on
 
+
 **3.Selling links**
-Selling links : https://www.aliexpress.com/item/1005009387100041.html
+We use our entire range of dongle products
+https://www.aliexpress.com/item/1005009387100041.html
+
+**4.ZBM-MG21/4 Firmware burning tool**
+https://github.com/Inswift-dev/inswift-silabs-flasher
+
+**5.Product details and usage tutorial**
+https://github.com/Inswift-dev/inswift-eth/wiki
