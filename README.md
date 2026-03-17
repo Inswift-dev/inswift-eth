@@ -52,16 +52,16 @@ Off ： Be turned off / Device is not powered on
 
 We use our entire range of dongle products, AliExpress collects inswift dongle  
 
-[![AliExpress Store](https://img.shields.io/badge/AliExpress-Store-orange)](https://www.aliexpress.com/item/1005009387100041.html)
+[![AliExpress Store](https://img.shields.io/badge/AliExpress-Store-orange)](https://www.aliexpress.com/store/1104754391?spm=a2g0o.store_pc_home.pcShopHead_2012127151152.0)
 
 ![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
 
 
 **4.ZBM-MG21/4 Firmware burning tool**
 
-[![ZBM-MG21/24 Firmware Flasher](https://img.shields.io/badge/Inswift_Silabs_Flasher-ZBM_MG21%2F24_烧录工具-blue)](https://github.com/Inswift-dev/inswift-silabs-flasher)
+[![ZBM-MG21/24 Firmware Flasher](https://img.shields.io/badge/Inswift_Silabs_Flasher-ZBM_MG21%2F24_Flasher-blue)](https://github.com/Inswift-dev/inswift-silabs-flasher)
 
 
 **5.Product details and usage tutorial**
 
-[![Product Wiki](https://img.shields.io/badge/产品说明与使用教程-Wiki-green)](https://github.com/Inswift-dev/inswift-eth/wiki)
+[![Product Wiki](https://img.shields.io/badge/Product_Details_%26_User_Guide-Wiki-green)](https://github.com/Inswift-dev/inswift-eth/wiki)
