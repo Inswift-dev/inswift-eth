@@ -1,11 +1,7 @@
 **Inswift Zigbee 3.0 PoE Ethernet USB Adapter's Firmware**
-![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
-
-Selling links : https://www.aliexpress.com/item/1005009387100041.html
-
 **Zigbee over LAN,USB,WiFI is supported.**
 <img width="2554" height="1364" alt="4" src="https://github.com/user-attachments/assets/b8ed13d2-7e4d-4bda-bda7-46fcc696703a" />
-
+![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
 **1.SOC INFO** 
 
 used ESP32 + TI CC2652P/P7 or Silicon Labs MG21/24
@@ -50,3 +46,6 @@ Green blinking slowly ：ZigBeeMQTT is not connected
 Red solid ：Ethernet mode network disconnected
 
 Off ： Be turned off / Device is not powered on
+
+**3.Selling links**
+Selling links : https://www.aliexpress.com/item/1005009387100041.html
