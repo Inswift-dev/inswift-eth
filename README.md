@@ -54,7 +54,9 @@ We use our entire range of dongle products, AliExpress collects inswift dongle
 
 [![AliExpress Store](https://img.shields.io/badge/AliExpress-Store-orange)](https://www.aliexpress.com/store/1104754391?spm=a2g0o.store_pc_home.pcShopHead_2012127151152.0)
 
-![6c49168cad32c982c9b1ced62c59c6ac](https://github.com/user-attachments/assets/e156929e-8618-4546-999b-72cae55acdbe)
+<img width="1000" height="1000" alt="dongle_series" src="https://github.com/user-attachments/assets/0144d364-7aab-4950-a9a5-3ca79b6b70ce" />
+
+
 
 
 **4.ZBM-MG21/4 Firmware burning tool**
