@@ -1,6 +1,6 @@
 # ZBM-MG dongle IO configuration
 
-> Source: Inswift website tutorial [ZBM-MG dongle IO configuration](https://inswift.tech/en/tutorials/zbm-mg-dongle-io/) ([中文](https://inswift.tech/tutorials/zbm-mg-dongle-io/)). If anything here differs from the website, the website is authoritative.
+> Source: Inswift website tutorial [ZBM-MG dongle IO configuration](https://inswift.tech/en/tutorials/zbm-mg-dongle-io/). If anything here differs from the website, the website is authoritative.
 
 For stock images, use [Flash USB dongle firmware](https://inswift.tech/en/tutorials/flash-zbm-mg24/). You do not need these pins.
 
