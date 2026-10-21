@@ -1,0 +1,261 @@
+# Inswift ETH-MG21 / ETH-MG24 / ETH-MG21 PoE / ETH-MG24 PoE
+# Optional advanced ESPHome firmware:
+#   Ethernet primary + Wi-Fi backup · Zigbee TCP bridge :6638 · HA Bluetooth proxy · web OTA (ESP32)
+# Official stock firmware remains the default; this is an optional open alternative.
+# Target: ESPHome 2026.9.1 (esp-idf)
+
+substitutions:
+  name: inswift-eth-mg
+  friendly_name: Inswift ETH-MG
+  zigbee_baud: "115200"   # Stock EFR NCP firmware: 115200 8N1, no flow control
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: inswift.eth-mg
+    version: "0.1.8"
+  on_boot:
+    # GPIO binary outputs init at priority 800 and call turn_off() (pin LOW).
+    # Run after that so nRESET is driven high and the EFR is not held in reset.
+    priority: 600
+    then:
+      - output.turn_off: efr_bsl        # Keep BSL low for normal run
+      - output.turn_on: efr_nreset      # Idle high
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+  baud_rate: 0          # Quiet USB serial for production; raise to 115200 for debug
+  level: INFO
+
+api:
+  actions:              # Home Assistant: esphome.<device>_set_wifi
+    - action: set_wifi
+      variables:
+        ssid: string
+        password: string
+      then:
+        - wifi.configure:
+            ssid: !lambda 'return ssid;'
+            password: !lambda 'return password;'
+            save: true
+            on_connect:
+              - text_sensor.template.publish:
+                  id: wifi_cfg_status
+                  state: "Connected"
+            on_error:
+              - text_sensor.template.publish:
+                  id: wifi_cfg_status
+                  state: "Failed — check SSID and password"
+
+ota:
+  - platform: esphome   # ESPHome dashboard / CLI OTA
+  - platform: web_server  # Upload .ota.bin from the device web UI
+
+network:
+  priority:             # Prefer Ethernet when a cable is present
+    - ethernet
+    - wifi
+
+wifi:
+  # No hardcoded home SSID. Fallback AP opens if neither Ethernet nor Wi-Fi is up.
+  ap:
+    ssid: "Inswift-ETH-MG"
+    password: "inswift123"
+    ap_timeout: 1min
+  reboot_timeout: 0s    # Do not reboot when Wi-Fi is down but Ethernet works
+
+captive_portal:
+
+ethernet:
+  # ESPHome IP101 — same EthType 1 as Tasmota.
+  type: IP101
+  phy_addr: 1
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk:
+    pin: GPIO0
+    mode: CLK_EXT_IN
+  power_pin: GPIO5
+
+web_server:
+  port: 80
+
+# ---- Zigbee UART2 (ESP32 <-> EFR32) ----
+uart:
+  id: zb_uart
+  tx_pin: GPIO17        # ESP TX -> EFR RX
+  rx_pin: GPIO13        # ESP RX <- EFR TX
+  baud_rate: ${zigbee_baud}
+  data_bits: 8
+  parity: NONE
+  stop_bits: 1
+  rx_buffer_size: 4096
+
+external_components:
+  # Local patch of oxan/esphome-stream-server for ESPHome 2026.9
+  - source:
+      type: local
+      path: components
+    components: [stream_server]
+
+stream_server:
+  id: zb_bridge
+  uart_id: zb_uart
+  port: 6638            # Same port as stock firmware
+
+# ---- EFR control pins ----
+output:
+  - platform: gpio
+    id: efr_nreset
+    pin: GPIO15
+  - platform: gpio
+    id: efr_bsl
+    pin: GPIO33         # High = enter Gecko bootloader on reset
+  - platform: ledc
+    id: led_red
+    pin: GPIO4
+  - platform: ledc
+    id: led_green
+    pin: GPIO14
+  - platform: ledc
+    id: led_blue
+    pin: GPIO2
+
+button:
+  - platform: template
+    name: "WiFi Connect"
+    entity_category: config
+    on_press:
+      - text_sensor.template.publish:
+          id: wifi_cfg_status
+          state: "Connecting…"
+      - wifi.configure:
+          ssid: !lambda 'return id(wifi_ssid_input).state;'
+          password: !lambda 'return id(wifi_pass_input).state;'
+          save: true
+          on_connect:
+            - text_sensor.template.publish:
+                id: wifi_cfg_status
+                state: "Connected"
+          on_error:
+            - text_sensor.template.publish:
+                id: wifi_cfg_status
+                state: "Failed — check SSID and password"
+  - platform: restart
+    name: "Restart ESP32"
+  - platform: factory_reset
+    name: "Factory Reset ESP32"
+    entity_category: config
+  - platform: template
+    name: "Zigbee Reset"
+    on_press:
+      - logger.log: "Zigbee Reset: BSL=LOW, nRESET low 10ms then high"
+      - output.turn_off: efr_bsl
+      - output.turn_off: efr_nreset
+      - delay: 10ms
+      - output.turn_on: efr_nreset
+  - platform: template
+    name: "Zigbee Enter Bootloader"
+    entity_category: config
+    on_press:
+      - logger.log: "Zigbee Bootloader: BSL=HIGH, nRESET pulse, BSL low after 500ms"
+      - output.turn_on: efr_bsl
+      - output.turn_off: efr_nreset
+      - delay: 10ms
+      - output.turn_on: efr_nreset
+      - delay: 500ms
+      - output.turn_off: efr_bsl
+      - logger.log: "Zigbee Bootloader: done — connect tcp://IP:6638 and press Enter for Gecko menu"
+
+# ---- Button / model detect ----
+binary_sensor:
+  - platform: gpio
+    name: "Button"
+    pin:
+      number: GPIO34    # Input-only; board has external pull-up
+      inverted: true
+  - platform: gpio
+    id: model_pin
+    pin:
+      number: GPIO35    # Input-only: high = MG21, low = MG24
+    internal: true
+
+light:
+  - platform: rgb
+    id: rgb_led
+    name: "Status LED"
+    red: led_red
+    green: led_green
+    blue: led_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    initial_state:
+      state: true
+      brightness: 100%
+      red: 0%
+      green: 100%
+      blue: 0%
+    default_transition_length: 0s
+    effects:
+      - pulse:
+      - strobe:
+
+text:                     # Manual Wi-Fi from web UI / HA (works with Ethernet too)
+  - platform: template
+    id: wifi_ssid_input
+    name: "WiFi SSID Input"
+    entity_category: config
+    mode: text
+    optimistic: true
+    max_length: 32
+  - platform: template
+    id: wifi_pass_input
+    name: "WiFi Password Input"
+    entity_category: config
+    mode: password
+    optimistic: true
+    max_length: 64
+
+text_sensor:
+  - platform: template
+    id: wifi_cfg_status
+    name: "WiFi Setup Status"
+    entity_category: diagnostic
+  - platform: template
+    name: "Zigbee Chip"
+    entity_category: diagnostic
+    update_interval: never
+    id: zb_chip
+  - platform: ethernet_info
+    ip_address:
+      name: "Ethernet IP"
+    mac_address:
+      name: "Ethernet MAC"
+  - platform: wifi_info
+    ip_address:
+      name: "WiFi IP"
+    ssid:
+      name: "WiFi SSID"
+
+interval:
+  - interval: 1s
+    then:
+      - lambda: |-
+          static bool done = false;
+          if (!done) {
+            id(zb_chip).publish_state(id(model_pin).state ? "EFR32MG21" : "EFR32MG24");
+            done = true;
+          }
+
+# ---- Home Assistant Bluetooth proxy ----
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+
+bluetooth_proxy:
+  active: true
