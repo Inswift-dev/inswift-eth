@@ -68,6 +68,9 @@ We use our entire range of dongle products, AliExpress collects inswift dongle
 
 [![Product Wiki](https://img.shields.io/badge/Product_Details_%26_User_Guide-Wiki-green)](https://github.com/Inswift-dev/inswift-eth/wiki)
 
-**6.Optional advanced firmware (ETH-MG gateways)**
+**6.Optional advanced firmware (ETH-MG and ETH-52P gateways)**
 
 Stock firmware remains the default. For optional ESPHome (Zigbee TCP bridge + Home Assistant Bluetooth Proxy) or Tasmota ZigbeeBridgePro TCP bridge paths, see [docs/optional-firmware.md](docs/optional-firmware.md).
+
+- ETH-MG21 / MG24: [esphome/eth-mg](esphome/eth-mg/README.md) · [tasmota/eth-mg](tasmota/eth-mg/README.md)
+- ETH-52P / 52P7: [esphome/eth-52p](esphome/eth-52p/README.md) · [tasmota/eth-52p](tasmota/eth-52p/README.md)

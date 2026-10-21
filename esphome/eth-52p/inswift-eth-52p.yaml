@@ -1,0 +1,224 @@
+# Inswift ETH-52P / ETH-52P7
+# Optional advanced ESPHome firmware:
+#   Ethernet primary + Wi-Fi backup · Zigbee TCP bridge :6638 · HA Bluetooth proxy · web OTA (ESP32)
+# Official stock firmware remains the default; this is an optional open alternative.
+# Pins and reset/bootloader timing match the stock firmware. ETH-52P (CC2652P2) and ETH-52P7 (CC2652P7) share pins.
+# Target: ESPHome 2026.9.1 (esp-idf)
+
+substitutions:
+  name: dongle
+  friendly_name: Inswift ETH-52P
+  zigbee_baud: "115200"   # Stock Z-Stack coordinator firmware: 115200 8N1, no flow control
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: inswift.eth-52p
+    version: "0.1.1"
+  on_boot:
+    # GPIO binary outputs init at priority 800 and call turn_off() (pin LOW).
+    # Run after that and drive BSL and nRESET high so the CC2652 is not held in reset/bootloader.
+    # LEDs are RGB (ledc); restore_mode / initial_state handle Status LED — no light.turn_* here.
+    priority: 600
+    then:
+      - output.turn_on: cc_bsl      # BSL idle high (normal run)
+      - output.turn_on: cc_nreset   # nRESET idle high
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+  baud_rate: 115200     # USB serial log at 115200; set 0 for a quiet UART
+  level: INFO
+
+api:
+  actions:
+    - action: set_wifi
+      variables:
+        ssid: string
+        password: string
+      then:
+        - wifi.configure:
+            ssid: !lambda 'return ssid;'
+            password: !lambda 'return password;'
+            save: true
+
+ota:
+  - platform: esphome
+  - platform: web_server
+
+network:
+  priority:
+    - ethernet
+    - wifi
+
+wifi:
+  # Fallback AP matches ETH-MG optional-firmware UX (passworded Inswift-*-named AP),
+  # not stock open dongle-* / no-password AP.
+  ap:
+    ssid: "Inswift-ETH-52P"
+    password: "inswift123"
+    ap_timeout: 1min
+  reboot_timeout: 0s    # Do not reboot when Wi-Fi is down but Ethernet works
+
+captive_portal:
+
+ethernet:
+  type: IP101
+  phy_addr: 1
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk:
+    pin: GPIO0
+    mode: CLK_EXT_IN
+  power_pin: GPIO5
+
+web_server:
+  port: 80
+
+uart:
+  id: zb_uart
+  tx_pin: GPIO17   # ESP TX -> CC RX
+  rx_pin: GPIO13   # ESP RX <- CC TX
+  baud_rate: ${zigbee_baud}
+  data_bits: 8
+  parity: NONE
+  stop_bits: 1
+  rx_buffer_size: 4096
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [stream_server]
+
+stream_server:
+  id: zb_bridge
+  uart_id: zb_uart
+  port: 6638
+
+output:
+  - platform: gpio
+    id: cc_nreset
+    pin: GPIO15
+  - platform: gpio
+    id: cc_bsl
+    pin:
+      number: GPIO12
+      ignore_strapping_warning: true
+  # RGB Status LED — same pins/order as ETH-MG optional firmware (ledc PWM)
+  - platform: ledc
+    id: led_red
+    pin: GPIO4
+  - platform: ledc
+    id: led_green
+    pin: GPIO14
+  - platform: ledc
+    id: led_blue
+    pin:
+      number: GPIO2
+      ignore_strapping_warning: true
+
+light:
+  - platform: rgb
+    id: rgb_led
+    name: "Status LED"
+    red: led_red
+    green: led_green
+    blue: led_blue
+    restore_mode: RESTORE_DEFAULT_ON
+    initial_state:
+      state: true
+      brightness: 100%
+      red: 0%
+      green: 100%
+      blue: 0%
+    default_transition_length: 0s
+    effects:
+      - pulse:
+      - strobe:
+
+button:
+  - platform: template
+    name: "WiFi Connect"
+    entity_category: config
+    on_press:
+      - wifi.configure:
+          ssid: !lambda 'return id(wifi_ssid_input).state;'
+          password: !lambda 'return id(wifi_pass_input).state;'
+          save: true
+  - platform: restart
+    name: "Restart ESP32"
+  - platform: factory_reset
+    name: "Factory Reset ESP32"
+    entity_category: config
+  - platform: template
+    name: "Zigbee Reset"
+    on_press:
+      - output.turn_on: cc_bsl
+      - output.turn_off: cc_nreset
+      - delay: 50ms
+      - output.turn_on: cc_nreset
+      - delay: 500ms
+  - platform: template
+    name: "Zigbee Enter Bootloader"
+    entity_category: config
+    on_press:
+      - output.turn_off: cc_bsl
+      - output.turn_off: cc_nreset
+      - delay: 50ms
+      - output.turn_on: cc_nreset
+      - delay: 500ms
+      - output.turn_on: cc_bsl
+      - delay: 500ms
+
+binary_sensor:
+  - platform: gpio
+    name: "Button"
+    pin:
+      number: GPIO34
+      inverted: true
+
+text:
+  - platform: template
+    id: wifi_ssid_input
+    name: "WiFi SSID Input"
+    entity_category: config
+    mode: text
+    optimistic: true
+    max_length: 32
+  - platform: template
+    id: wifi_pass_input
+    name: "WiFi Password Input"
+    entity_category: config
+    mode: password
+    optimistic: true
+    max_length: 64
+
+text_sensor:
+  - platform: template
+    name: "Zigbee Chip"
+    entity_category: diagnostic
+    lambda: 'return std::string("CC2652P2 / CC2652P7");'
+    update_interval: 60s
+  - platform: ethernet_info
+    ip_address:
+      name: "Ethernet IP"
+    mac_address:
+      name: "Ethernet MAC"
+  - platform: wifi_info
+    ip_address:
+      name: "WiFi IP"
+    ssid:
+      name: "WiFi SSID"
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+
+bluetooth_proxy:
+  active: true
