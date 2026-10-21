@@ -3,7 +3,7 @@
 #   Ethernet primary + Wi-Fi backup · Zigbee TCP bridge :6638 · HA Bluetooth proxy · web OTA (ESP32)
 # Official stock firmware remains the default; this is an optional open alternative.
 # Pins and reset/bootloader timing match the stock firmware. ETH-52P (CC2652P2) and ETH-52P7 (CC2652P7) share pins.
-# Target: ESPHome 2026.9.1 (esp-idf)
+# Target: ESPHome 2026.10.0 (esp-idf)
 
 substitutions:
   name: dongle
@@ -14,6 +14,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
+  min_version: 2026.10.0
   project:
     name: inswift.eth-52p
     version: "0.1.1"
@@ -30,6 +31,10 @@ esp32:
   board: esp32dev
   framework:
     type: esp-idf
+    advanced:
+      minimum_chip_revision: "3.0"
+      sram1_as_iram: true
+      flash_chip: generic
 
 logger:
   baud_rate: 115200     # USB serial log at 115200; set 0 for a quiet UART
@@ -90,16 +95,11 @@ uart:
   stop_bits: 1
   rx_buffer_size: 4096
 
-external_components:
-  - source:
-      type: local
-      path: components
-    components: [stream_server]
-
-stream_server:
-  id: zb_bridge
-  uart_id: zb_uart
-  port: 6638
+uart_tcp:
+  - id: zb_bridge
+    uart_id: zb_uart
+    role: server
+    port: 6638
 
 output:
   - platform: gpio
